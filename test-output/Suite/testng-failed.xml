@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite thread-count="3" guice-stage="DEVELOPMENT" name="Failed suite [Suite]" parallel="methods">
-  <test name="Test(failed)" parallel="methods">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]">
+  <test name="Test(failed)">
     <classes>
-      <class name="pdfDownload.download">
+      <class name="com.test.utility.PDFUtilTest">
         <methods>
-          <include name="startTest2"/>
-          <include name="startTest1"/>
-          <include name="webdriverStart"/>
-          <include name="startTest3"/>
+          <include name="tearDown"/>
+          <include name="getResult"/>
+          <include name="setUp"/>
+          <include name="comparePDFImageModeDiff"/>
         </methods>
-      </class> <!-- pdfDownload.download -->
+      </class> <!-- com.test.utility.PDFUtilTest -->
     </classes>
   </test> <!-- Test(failed) -->
 </suite> <!-- Failed suite [Suite] -->

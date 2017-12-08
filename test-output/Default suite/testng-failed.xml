@@ -5,6 +5,9 @@
     <classes>
       <class name="com.test.utility.PDFUtilTest">
         <methods>
+          <include name="tearDown"/>
+          <include name="getResult"/>
+          <include name="setUp"/>
           <include name="comparePDFImageModeDiff"/>
         </methods>
       </class> <!-- com.test.utility.PDFUtilTest -->
