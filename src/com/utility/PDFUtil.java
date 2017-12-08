@@ -1,20 +1,6 @@
 package com.utility;
 
-/*
- * Copyright [2015] [www.testautomationguru.com]
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
- */
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -33,6 +19,9 @@ import org.apache.pdfbox.pdmodel.graphics.PDXObject;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.tools.imageio.ImageIOUtil;
+
+import com.aventstack.extentreports.Status;
+
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.commons.io.FileUtils;
 
@@ -43,7 +32,7 @@ import org.apache.commons.io.FileUtils;
 *
 */
 
-public class PDFUtil {
+public class PDFUtil extends ReporterBaseTest{
 
 	private final static Logger logger = Logger.getLogger(PDFUtil.class.getName());
 	private String imageDestinationPath;
@@ -63,11 +52,11 @@ public class PDFUtil {
 	
 	public PDFUtil(){
 		this.bTrimWhiteSpace = true;
-		this.bHighlightPdfDifference = false;
-		this.imgColor = Color.MAGENTA;
-		this.bCompareAllPages = false;
+		this.bHighlightPdfDifference = true;
+		this.imgColor = Color.RED;
+		this.bCompareAllPages = true;
 		this.compareMode = CompareMode.TEXT_MODE;
-		logger.setLevel(Level.OFF);
+		logger.setLevel(Level.INFO);
 		System.setProperty("sun.java2d.cmm", "sun.java2d.cmm.kcms.KcmsServiceProvider");
 	}
 	
@@ -272,6 +261,9 @@ public class PDFUtil {
    * @throws java.io.IOException when file is not found.
    */
 	public boolean compare(String file1, String file2) throws IOException{
+
+		test.log(Status.INFO, "Comparing Files  :" + file1 + " & " + file2);
+		
 		return this.comparePdfFiles(file1, file2, -1, -1);
 	}
 	
@@ -475,12 +467,12 @@ public class PDFUtil {
 				for(int iPage=startPage-1;iPage<endPage;iPage++){
 					String fileName = new File(file1).getName().replace(".pdf", "_") + (iPage + 1);
 					fileName = this.getImageDestinationPath() + "\\" + fileName + "_diff.png";
-					
 					logger.info("Comparing Page No : " + (iPage+1));
 					BufferedImage image1 = pdfRenderer1.renderImageWithDPI(iPage, 300, ImageType.RGB);
 					BufferedImage image2 = pdfRenderer2.renderImageWithDPI(iPage, 300, ImageType.RGB);
 					result = ImageUtil.compareAndHighlight(image1, image2, fileName, this.bHighlightPdfDifference, this.imgColor.getRGB()) && result;
 					if(!this.bCompareAllPages && !result){
+						System.out.println("No Difference Found");
 						break;
 					}
 				}

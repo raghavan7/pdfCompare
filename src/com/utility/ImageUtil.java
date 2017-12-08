@@ -7,7 +7,10 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
-class ImageUtil {
+import com.aventstack.extentreports.MediaEntityBuilder;
+import com.aventstack.extentreports.Status;
+
+class ImageUtil extends ReporterBaseTest{
 	
 	static Logger logger = Logger.getLogger(ImageUtil.class.getName());
 	
@@ -20,6 +23,7 @@ class ImageUtil {
 
 	    if(!(java.util.Arrays.equals(p1, p2))){
 	    	logger.warning("Image compared - does not match");
+	    	test.log(Status.FAIL, "Error Screeshot: ", MediaEntityBuilder.createScreenCaptureFromPath(fileName).build());
 	    	if(highlight){
 	    	    for (int i = 0; i < p1.length; i++) {
 	    	        if (p1[i] != p2[i]){
